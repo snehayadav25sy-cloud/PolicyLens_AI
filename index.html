@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyLens AI - Visual Policy Interpretation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1>PolicyLens <span>AI</span></h1>
+            <p>Visual & Explainable Policy Interpretation Interface</p>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+
+        <div class="grid-layout">
+            <!-- Left Column: Inputs -->
+            <div class="input-column">
+                <!-- Policy Selection -->
+                <section class="card">
+                    <div class="card-header">
+                        <div class="icon">📜</div>
+                        <h2>Select Policy</h2>
+                    </div>
+                    <div class="input-group">
+                        <select id="policy-select">
+                            <option>Scholarship Scheme</option>
+                            <option>Loan Eligibility</option>
+                            <option>Insurance Policy</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- User Details -->
+                <section class="card">
+                    <div class="card-header">
+                        <div class="icon">👤</div>
+                        <h2>Enter Your Details</h2>
+                    </div>
+                    <form class="details-form">
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="age">Age</label>
+                                <input type="number" id="age" placeholder="e.g. 21">
+                            </div>
+                            <div class="input-group">
+                                <label for="income">Annual Income</label>
+                                <input type="number" id="income" placeholder="e.g. 500000">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="category">Category</label>
+                            <select id="category">
+                                <option>General</option>
+                                <option>OBC</option>
+                                <option>SC/ST</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="primary-btn">Check Eligibility</button>
+                    </form>
+                </section>
+            </div>
+
+            <!-- Right Column: Visualization & Explanation -->
+            <div class="output-column">
+                <!-- Decision Flow -->
+                <section class="card">
+                    <div class="card-header">
+                        <div class="icon">🔄</div>
+                        <h2>Decision Flow</h2>
+                    </div>
+                    <div class="flow">
+                        <div class="step passed">
+                            <span class="step-icon">✓</span>
+                            <span class="step-text">Age Check</span>
+                        </div>
+                        <div class="step failed">
+                            <span class="step-icon">✗</span>
+                            <span class="step-text">Income Check</span>
+                        </div>
+                        <div class="step pending">
+                            <span class="step-icon">○</span>
+                            <span class="step-text">Category Rule</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Explanation Panel -->
+                <section class="card explanation-card">
+                    <div class="card-header">
+                        <div class="icon">💡</div>
+                        <h2>AI Explanation</h2>
+                    </div>
+                    <div class="explanation-content">
+                        <p class="explanation-text">
+                            Based on the <strong>Income Rule (Clause 4.3)</strong>, your annual income of ₹5,00,000 exceeds the eligibility limit for this scheme. 
+                        </p>
+                        <div class="alert warning">
+                            <strong>Verdict:</strong> Not Eligible
+                        </div>
+                        <p class="clause-reference">Reference: <em>Scholarship Policy Document v2.1</em></p>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 PolicyLens AI. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
