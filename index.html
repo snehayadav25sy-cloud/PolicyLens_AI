@@ -46,7 +46,7 @@
                         <div class="icon">👤</div>
                         <h2>Enter Your Details</h2>
                     </div>
-                    <form class="details-form">
+                    <form class="details-form" id="details-form">
                         <div class="input-row">
                             <div class="input-group">
                                 <label for="age">Age</label>
@@ -78,18 +78,11 @@
                         <div class="icon">🔄</div>
                         <h2>Decision Flow</h2>
                     </div>
-                    <div class="flow">
-                        <div class="step passed">
-                            <span class="step-icon">✓</span>
-                            <span class="step-text">Age Check</span>
-                        </div>
-                        <div class="step failed">
-                            <span class="step-icon">✗</span>
-                            <span class="step-text">Income Check</span>
-                        </div>
+                    <div class="flow" id="decision-flow">
+                        <!-- Javascript will dynamically inject the AI's step-by-step checks here -->
                         <div class="step pending">
                             <span class="step-icon">○</span>
-                            <span class="step-text">Category Rule</span>
+                            <span class="step-text">Awaiting Analysis...</span>
                         </div>
                     </div>
                 </section>
@@ -100,14 +93,14 @@
                         <div class="icon">💡</div>
                         <h2>AI Explanation</h2>
                     </div>
-                    <div class="explanation-content">
-                        <p class="explanation-text">
-                            Based on the <strong>Income Rule (Clause 4.3)</strong>, your annual income of ₹5,00,000 exceeds the eligibility limit for this scheme. 
+                    <div class="explanation-content" id="explanation-container">
+                        <p class="explanation-text" id="ai-explanation">
+                            Waiting for your details to run policy analysis...
                         </p>
-                        <div class="alert warning">
-                            <strong>Verdict:</strong> Not Eligible
+                        <div class="alert warning" id="ai-verdict" style="display:none;">
+                            <strong>Verdict:</strong> <span id="verdict-text">Pending</span>
                         </div>
-                        <p class="clause-reference">Reference: <em>Scholarship Policy Document v2.1</em></p>
+                        <p class="clause-reference" id="ai-reference" style="display:none;">Reference: <em id="reference-text"></em></p>
                     </div>
                 </section>
             </div>
@@ -119,5 +112,6 @@
         <p>&copy; 2024 PolicyLens AI. All Rights Reserved.</p>
     </footer>
 
+    <script type="module" src="script.js"></script>
 </body>
 </html>
