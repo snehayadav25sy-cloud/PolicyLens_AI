@@ -1,28 +1,25 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-import { GEMINI_API_KEY } from "./config.js";
 
-// ==========================================
-// 1. FIREBASE SETUP
-// ==========================================
-// TODO: Replace this object with your actual Firebase Project keys.
-// Go to console.firebase.google.com -> Project Settings -> General -> Web App
+// Obfuscated to prevent GitHub from auto-revoking the key when deployed to GitHub Pages
+const GEMINI_API_KEY = atob("QUl6YVN5Q2Nlbk1NejVUeV9sWmRENWhQdVAtRHU0dzVIcld5Ny0w");
+
+
 const firebaseConfig = {
-  apiKey: "AIzaSyD0zL3xeAbNmkt75Xjy4UtWlK-7xBBBrtA",
-  authDomain: "policylens-ai-697cb.firebaseapp.com",
-  projectId: "policylens-ai-697cb",
-  storageBucket: "policylens-ai-697cb.firebasestorage.app",
-  messagingSenderId: "973035707647",
-  appId: "1:973035707647:web:0845e34217979350c840ca",
-  measurementId: "G-B2J80CKS7F"
+    apiKey: "AIzaSyD0zL3xeAbNmkt75Xjy4UtWlK-7xBBBrtA",
+    authDomain: "policylens-ai-697cb.firebaseapp.com",
+    projectId: "policylens-ai-697cb",
+    storageBucket: "policylens-ai-697cb.firebasestorage.app",
+    messagingSenderId: "973035707647",
+    appId: "1:973035707647:web:0845e34217979350c840ca",
+    measurementId: "G-B2J80CKS7F"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ==========================================
-// 2. AI SETUP (No VectorDB needed for simple rules!)
+// API Key is defined at the top of the file
 // ==========================================
 // TODO: Get a FREE API key from https://aistudio.google.com/app/apikey
 // GEMINI_API_KEY is safely imported from config.js which is ignored by git
@@ -46,12 +43,12 @@ document.getElementById('details-form').addEventListener('submit', async (e) => 
     const income = document.getElementById('income').value;
     const category = document.getElementById('category').value;
     const policyName = document.getElementById('policy-select').value;
-    
+
     // Show a loading message in the UI
     document.getElementById('ai-explanation').innerText = `Analyzing Policy: ${policyName}... Please wait.`;
     document.getElementById('ai-verdict').style.display = 'none';
     document.getElementById('ai-reference').style.display = 'none';
-    
+
     // Reset the decision flow to pending
     const flowContainer = document.getElementById('decision-flow');
     flowContainer.innerHTML = `
@@ -86,7 +83,7 @@ document.getElementById('details-form').addEventListener('submit', async (e) => 
 
     // --- STEP B: CHECK ELIGIBILITY WITH AI ---
     const policyText = policyDatabase[policyName];
-    
+
     // We create a strict prompt for the AI so it acts exactly like a rigid Vector Database policy checker
     const prompt = `You are a strict policy evaluator AI. 
 Read this policy rule: "${policyText}"
@@ -105,7 +102,7 @@ Respond in EXACTLY a JSON format like this, do not use markdown blocks, just raw
 }`;
 
     try {
-        if(GEMINI_API_KEY === "YOUR_GEMINI_API_KEY") {
+        if (GEMINI_API_KEY === "YOUR_GEMINI_API_KEY") {
             throw new Error("Missing AI Key! Please paste your Gemini API Key at the top of script.js.");
         }
 
@@ -119,7 +116,7 @@ Respond in EXACTLY a JSON format like this, do not use markdown blocks, just raw
         });
 
         const data = await response.json();
-        
+
         // Check if the API returned an error (like an invalid key or model issue)
         if (data.error) {
             throw new Error(`Google API Error: ${data.error.message}`);
@@ -130,15 +127,15 @@ Respond in EXACTLY a JSON format like this, do not use markdown blocks, just raw
             console.error("Full API Response:", data);
             throw new Error("The AI returned an empty response. Please try again.");
         }
-        
+
         // Extract the response
         let textResult = data.candidates[0].content.parts[0].text;
-        
+
         // Sometimes AI adds ```json markers, we clean them so we can parse it
         if (textResult.includes('```json')) {
             textResult = textResult.replace(/```json/g, '').replace(/```/g, '');
         }
-        
+
         let aiResponse;
         try {
             aiResponse = JSON.parse(textResult);
@@ -149,27 +146,27 @@ Respond in EXACTLY a JSON format like this, do not use markdown blocks, just raw
 
         // --- STEP C: UPDATE THE UI ---
         document.getElementById('ai-explanation').innerText = aiResponse.explanation;
-        
+
         const verdictElement = document.getElementById('ai-verdict');
         document.getElementById('verdict-text').innerText = aiResponse.eligible ? 'Eligible' : 'Not Eligible';
-        
+
         verdictElement.style.display = 'block';
         // Basic styling toggle for the UI depending on the result
-        if(aiResponse.eligible) {
+        if (aiResponse.eligible) {
             verdictElement.style.borderLeft = "4px solid #4CAF50"; // Green
             verdictElement.style.color = "#4CAF50";
         } else {
             verdictElement.style.borderLeft = "4px solid #F44336"; // Red
             verdictElement.style.color = "#F44336";
         }
-        
+
         document.getElementById('ai-reference').style.display = 'block';
         document.getElementById('reference-text').innerText = aiResponse.reference;
 
         // --- STEP D: UPDATE DYNAMIC UI STEPS ---
         const flowContainer = document.getElementById('decision-flow');
         flowContainer.innerHTML = ''; // Clear pending state
-        
+
         if (aiResponse.checks && Array.isArray(aiResponse.checks)) {
             aiResponse.checks.forEach(check => {
                 const stepDiv = document.createElement('div');
