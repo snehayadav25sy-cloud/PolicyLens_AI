@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+import { GEMINI_API_KEY } from "./config.js";
 
 // ==========================================
 // 1. FIREBASE SETUP
@@ -24,7 +25,7 @@ const db = getFirestore(app);
 // 2. AI SETUP (No VectorDB needed for simple rules!)
 // ==========================================
 // TODO: Get a FREE API key from https://aistudio.google.com/app/apikey
-const GEMINI_API_KEY = "AIzaSyDBg3SWqUiZSl33Qwu21a-JlMYyx18BrHA";
+// GEMINI_API_KEY is safely imported from config.js which is ignored by git
 
 // In a full production app, you would fetch these from Firebase Firestore too.
 // For this script, we have them here to show the AI how to check them.
